@@ -1,0 +1,88 @@
+:root {
+    --paper: #f4f0e8;
+    --ink: #27231f;
+    --accent: #a6492d;
+    --gold: #d19b36;
+}
+
+body {
+    background:
+        radial-gradient(circle at 10% 0%, rgba(209, 155, 54, 0.12), transparent 30rem),
+        linear-gradient(180deg, #faf8f3 0%, var(--paper) 100%);
+    color: var(--ink);
+}
+
+.navbar-brand {
+    letter-spacing: 0.02em;
+}
+
+.book-card {
+    background: rgba(255, 255, 255, 0.88);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.book-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.75rem 2rem rgba(39, 35, 31, 0.12) !important;
+}
+
+.book-cover-list {
+    min-height: 230px;
+    object-fit: cover;
+}
+
+.book-cover-detail {
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    border-radius: 0.35rem;
+}
+
+.rating-badge,
+.rating-large,
+.rating-text {
+    color: #805d16;
+    font-weight: 700;
+}
+
+.rating-large {
+    font-size: 1.5rem;
+}
+
+.form-container {
+    max-width: 900px;
+}
+
+.auth-card {
+    max-width: 460px;
+}
+
+.markdown-content {
+    line-height: 1.7;
+}
+
+.markdown-content > :last-child {
+    margin-bottom: 0;
+}
+
+.review-section {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.status-1 {
+    background: #d19b36;
+}
+
+.status-2 {
+    background: #337357;
+}
+
+.status-3 {
+    background: #a6492d;
+}
+
+@media (max-width: 767.98px) {
+    .book-cover-list {
+        max-height: 320px;
+    }
+}

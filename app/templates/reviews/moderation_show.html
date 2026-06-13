@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container form-container">
+    <div class="card border-0 shadow-sm">
+        <div class="card-body p-4">
+            <p class="text-uppercase text-muted small fw-bold mb-1">Рассмотрение рецензии</p>
+            <h1 class="h3 mb-4">{{ review.book.title }}</h1>
+            <dl class="row">
+                <dt class="col-sm-4">Пользователь</dt>
+                <dd class="col-sm-8">{{ review.user.full_name }}</dd>
+                <dt class="col-sm-4">Дата добавления</dt>
+                <dd class="col-sm-8">{{ review.created_at.strftime('%d.%m.%Y %H:%M') }}</dd>
+                <dt class="col-sm-4">Оценка</dt>
+                <dd class="col-sm-8">{{ review.rating }}/5</dd>
+            </dl>
+            <hr>
+            <div class="markdown-content">{{ review.text|markdown }}</div>
+        </div>
+        <div class="card-footer bg-white p-4 d-flex flex-wrap gap-2">
+            <form method="post" action="{{ url_for('reviews.moderation_update', review_id=review.id, action='approve') }}">
+                <button class="btn btn-success" type="submit">Одобрить</button>
+            </form>
+            <form method="post" action="{{ url_for('reviews.moderation_update', review_id=review.id, action='reject') }}">
+                <button class="btn btn-danger" type="submit">Отклонить</button>
+            </form>
+            <a class="btn btn-outline-secondary" href="{{ url_for('reviews.moderation') }}">Назад</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

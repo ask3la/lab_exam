@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% from 'books/form_macro.html' import book_form %}
+
+{% block content %}
+<div class="container form-container">
+    <h1 class="mb-4">{{ heading }}</h1>
+    {{ book_form(data, errors, genres, is_create) }}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
+<script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
+<script>
+new EasyMDE({element: document.getElementById('description'), spellChecker: false});
+</script>
+{% endblock %}

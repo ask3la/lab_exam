@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row g-5 mb-5">
+        <div class="col-md-4 col-lg-3">
+            <img class="book-cover-detail w-100 shadow" src="{{ url_for('books.cover', cover_id=book.cover.id) }}" alt="Обложка {{ book.title }}">
+        </div>
+        <div class="col-md-8 col-lg-9">
+            <div class="d-flex flex-wrap justify-content-between gap-3 mb-3">
+                <div>
+                    <p class="text-uppercase text-muted small fw-bold mb-1">{{ book.year }} год</p>
+                    <h1 class="display-6">{{ book.title }}</h1>
+                    <p class="lead mb-1">{{ book.author }}</p>
+                    <p class="text-muted">{{ book.publisher }}, {{ book.pages }} стр.</p>
+                </div>
+                <div class="rating-large">★ {{ '%.2f'|format(book.rating) }}</div>
+            </div>
+            <div class="mb-4">
+                {% for genre in book.genres %}
+                    <span class="badge rounded-pill text-bg-light border me-1">{{ genre.name }}</span>
+                {% endfor %}
+            </div>
+            <div class="markdown-content">{{ book.description|markdown }}</div>
+            {% if has_role(ROLE_ADMIN, ROLE_MODERATOR) %}
+                <a class="btn btn-outline-dark mt-3" href="{{ url_for('books.edit', book_id=book.id) }}">Редактировать</a>
+            {% endif %}
+        </div>
+    </div>
+
+    <section class="review-section">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="h3 mb-0">Рецензии</h2>
+            {% if current_user.is_authenticated and not own_review %}
+                <a class="btn btn-dark" href="{{ url_for('reviews.create', book_id=book.id) }}">Написать рецензию</a>
+            {% endif %}
+        </div>
+
+        {% if own_review %}
+            <div class="alert alert-secondary">
+                <strong>Ваша рецензия</strong>
+                <span class="badge text-bg-dark ms-2">{{ own_review.status.name }}</span>
+                <div class="mt-2">Оценка: {{ own_review.rating }}/5</div>
+                <div class="markdown-content mt-2">{{ own_review.text|markdown }}</div>
+            </div>
+        {% endif %}
+
+        {% for review in approved_reviews %}
+            {% if not own_review or review.id != own_review.id %}
+                <article class="card border-0 shadow-sm mb-3">
+                    <div class="card-body">
+                        <div class="d-flex flex-wrap justify-content-between gap-2 mb-2">
+                            <strong>{{ review.user.full_name }}</strong>
+                            <span class="text-muted">{{ review.created_at.strftime('%d.%m.%Y %H:%M') }}</span>
+                        </div>
+                        <div class="rating-text mb-2">★ {{ review.rating }}/5</div>
+                        <div class="markdown-content">{{ review.text|markdown }}</div>
+                    </div>
+                </article>
+            {% endif %}
+        {% else %}
+            {% if not own_review %}
+                <div class="alert alert-light border">Одобренных рецензий пока нет.</div>
+            {% endif %}
+        {% endfor %}
+    </section>
+</div>
+{% endblock %}

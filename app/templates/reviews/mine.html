@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1 class="mb-4">Мои рецензии</h1>
+    <div class="row g-3">
+        {% for review in reviews %}
+            <div class="col-12">
+                <article class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex flex-wrap justify-content-between gap-2 mb-2">
+                            <h2 class="h5 mb-0">
+                                <a class="text-dark" href="{{ url_for('books.show', book_id=review.book.id) }}">{{ review.book.title }}</a>
+                            </h2>
+                            <span class="badge status-{{ review.status.id }}">{{ review.status.name }}</span>
+                        </div>
+                        <p class="mb-2">Оценка: <strong>{{ review.rating }}/5</strong></p>
+                        <div class="markdown-content">{{ review.text|markdown }}</div>
+                    </div>
+                </article>
+            </div>
+        {% else %}
+            <div class="col-12"><div class="alert alert-light border">Вы ещё не написали ни одной рецензии.</div></div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
